@@ -473,9 +473,12 @@ bool Probe::move_to_z(const float z, const float fr_mm_s) {
     tmc.disable_stallguard(Z_DRV, stealth_states.z);
   #endif
 
+  SERIAL_ELOGIC("probe_triggered", probe_triggered);
   // Retract BLTouch immediately after a probe if it was triggered
   #if HAS_BLTOUCH && DISABLED(BLTOUCH_HIGH_SPEED_MODE)
+    SERIAL_EM("Vado a bltouch.stow()");
     if (probe_triggered && bltouch.stow()) return true;
+    SERIAL_EM("Ok vado avanti dopo bltouch.stow()");
   #endif
 
   // Clear endstop flags
